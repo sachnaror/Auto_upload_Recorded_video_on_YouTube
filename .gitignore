@@ -1,1 +1,36 @@
 youtube_credentials.pkl
+# Python-related ignores
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.env
+*.venv
+*.log
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.Spotlight-V100
+.Trashes
+._*
+
+# Credentials and sensitive files
+client_secrets.json
+youtube_credentials.pkl
+
+# Logs
+/tmp/
+*.log
+
+# IDE and editor-related ignores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment and dependency files
+.env/
+.env.*
+venv/
+.venv/
