@@ -33,8 +33,8 @@ pip install watchdog google-auth google-api-python-client google-auth-oauthlib p
 ### **Step 1: Clone the Repository**
 Clone or download the app files to your system:
 ```bash
-git clone https://github.com/your-repo/upload_video_automation.git
-cd upload_video_automation
+git clone https://github.com/sachnaror/upload_video_app.git
+cd upload_video_app
 ```
 
 ### **Step 2: Configure YouTube API**
@@ -60,7 +60,7 @@ cd upload_video_automation
        <key>ProgramArguments</key>
        <array>
            <string>/usr/bin/python3</string>
-           <string>/path/to/upload_video.py</string>
+           <string>/Users/homesachin/Desktop/zoneone/practice/shell_scripts/upload_video.py</string>
        </array>
 
        <key>RunAtLoad</key>
@@ -77,7 +77,6 @@ cd upload_video_automation
    </dict>
    </plist>
    ```
-   Replace `/path/to/upload_video.py` with the full path to the `upload_video.py` script.
 
 3. Load the Launch Agent:
    ```bash
@@ -128,6 +127,19 @@ Logs are saved in the `/tmp` directory:
   Run `pip install -r requirements.txt` to install missing libraries.
 - **File Not Detected:**
   Ensure the monitored folder is correct (`/Users/homesachin/Desktop`).
+
+---
+
+## **📩 Contact**
+
+| Name              | Details                             |
+|-------------------|-------------------------------------|
+| **👨‍💻 Developer**  | Sachin Arora                      |
+| **📧 Email**       | [sachnaror@gmail.com](mailto:sachnaror@gmail.com) |
+| **📍 Location**    | Noida, India                       |
+| **📂 GitHub**      | [github.com/sachnaror](https://github.com/sachnaror) |
+| **🌐 Website**     | [https://about.me/sachin-arora](https://about.me/sachin-arora) |
+| **📱 Phone**       | [+91 9560330483](tel:+919560330483) |
 
 ---
 
