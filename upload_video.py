@@ -9,6 +9,7 @@ from pync import Notifier  # For macOS notifications
 import pyperclip  # For copying to clipboard
 import pickle
 from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import Request
 import random
 
 # Function to generate a unique title and description for the video
@@ -29,16 +30,34 @@ def generate_title_and_description(video_path):
     return title, description
 
 # Function to upload the video to YouTube
+import os
+import pickle
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from google.auth.transport.requests import Request
+
+import os
+import pickle
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from google.auth.transport.requests import Request
+from googleapiclient.http import MediaFileUpload
+import time
+from pync import Notifier  # For macOS notifications
+import pyperclip  # For copying to clipboard
+
 def upload_to_youtube(video_path):
     print(f"Uploading video: {video_path}")
 
     SCOPES = ['https://www.googleapis.com/auth/youtube.upload']
+    credentials_file = '/Users/homesachin/Desktop/zoneone/practice/shell_scripts/client_secrets.json'
+    token_file = '/Users/homesachin/Desktop/zoneone/practice/shell_scripts/upload_video_app/youtube_credentials.pkl'
+
     credentials = None
-    credentials_file = 'youtube_credentials.pkl'
 
     # Check if credentials file exists
-    if os.path.exists(credentials_file):
-        with open(credentials_file, 'rb') as token:
+    if os.path.exists(token_file):
+        with open(token_file, 'rb') as token:
             credentials = pickle.load(token)
 
     # If no valid credentials, prompt user to log in
@@ -46,20 +65,17 @@ def upload_to_youtube(video_path):
         if credentials and credentials.expired and credentials.refresh_token:
             credentials.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                '/Users/homesachin/Desktop/zoneone/practice/shell_scripts/client_secrets.json', SCOPES
-            )
+            flow = InstalledAppFlow.from_client_secrets_file(credentials_file, SCOPES)
             credentials = flow.run_local_server(port=0)
-
-        # Save the credentials for future use
-        with open(credentials_file, 'wb') as token:
-            pickle.dump(credentials, token)
+            with open(token_file, 'wb') as token:
+                pickle.dump(credentials, token)
 
     youtube = build('youtube', 'v3', credentials=credentials)
 
     # Generate title and description
     title, description = generate_title_and_description(video_path)
 
+    # Upload video
     request = youtube.videos().insert(
         part="snippet,status",
         body={
@@ -75,12 +91,26 @@ def upload_to_youtube(video_path):
         },
         media_body=MediaFileUpload(video_path)
     )
+
+    # Immediately get the response with the video ID
     response = request.execute()
     video_link = f"https://www.youtube.com/watch?v={response['id']}"
-    print(f"Video uploaded successfully: {video_link}")
 
-    # Send desktop notification
+    # Notify with the link immediately
     send_notification(video_link)
+
+    print(f"Video uploaded successfully: {video_link}")
+    print("The video may still be processing.")
+
+# Function to send macOS notification
+def send_notification(video_link):
+    Notifier.notify(
+        f"Video uploaded successfully:\n{video_link}\nClick to copy.",
+        title="YouTube Upload In Progress",
+        open=video_link  # Open link on click
+    )
+    pyperclip.copy(video_link)  # Copy the link to clipboard
+    print("Link copied to clipboard.")
 
 # Function to send macOS notification
 def send_notification(video_link):
