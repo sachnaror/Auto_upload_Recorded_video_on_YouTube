@@ -47,7 +47,7 @@ def upload_to_youtube(video_path):
             credentials.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'client_secrets.json', SCOPES
+                '/Users/homesachin/Desktop/zoneone/practice/shell_scripts/client_secrets.json', SCOPES
             )
             credentials = flow.run_local_server(port=0)
 
