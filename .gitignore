@@ -34,3 +34,5 @@ youtube_credentials.pkl
 .env.*
 venv/
 .venv/
+
+client_secrets.json
